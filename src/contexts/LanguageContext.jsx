@@ -30,6 +30,21 @@ export const LanguageProvider = ({ children }) => {
 
   const t = translations[currentLanguage] || translations.en;
 
+  // 动态更新页面标题和描述
+  useEffect(() => {
+    // 设置页面标题
+    document.title = t.appName;
+
+    // 更新 meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', t.appSubtitle);
+    }
+
+    // 更新 html lang 属性
+    document.documentElement.lang = currentLanguage;
+  }, [currentLanguage, t.appName, t.appSubtitle]);
+
   // 切换语言
   const changeLanguage = (langCode) => {
     setCurrentLanguage(langCode);
